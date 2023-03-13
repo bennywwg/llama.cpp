@@ -12,6 +12,7 @@
 // CLI argument parsing
 //
 
+<<<<<<< HEAD:Source/utils.h
 namespace AutoReflect {
     class gpt_params {
     public:
@@ -23,9 +24,23 @@ namespace AutoReflect {
         int32_t top_k = 40; // unused
         float   top_p = 0.95f;
         float   temp = 0.80f;
+=======
+struct gpt_params {
+    int32_t seed      = -1; // RNG seed
+    int32_t n_threads = std::min(4, (int32_t) std::thread::hardware_concurrency());
+    int32_t n_predict = 128; // new tokens to predict
+    int32_t repeat_last_n = 64;  // last n tokens to penalize
+
+    // sampling parameters
+    int32_t top_k = 40;
+    float   top_p = 0.95f;
+    float   temp  = 0.80f;
+    float   repeat_penalty  = 1.30f;
+>>>>>>> a169bb889cfe7b77a798f04fbc573e67ccb4316a:utils.h
 
         int32_t n_batch = 8; // batch size for prompt processing
 
+<<<<<<< HEAD:Source/utils.h
         std::string prompt;
     };
 
@@ -44,6 +59,17 @@ namespace AutoReflect {
 }
 
 using namespace AutoReflect;
+=======
+    std::string model = "models/lamma-7B/ggml-model.bin"; // model path
+    std::string prompt;
+
+    bool use_color = false; // use color to distinguish generations and inputs
+
+    bool interactive = false; // interactive mode
+    bool interactive_start = false; // reverse prompt immediately
+    std::string antiprompt = ""; // string upon seeing which more user input is prompted
+};
+>>>>>>> a169bb889cfe7b77a798f04fbc573e67ccb4316a:utils.h
 
 bool gpt_params_parse(int argc, char ** argv, gpt_params & params);
 
@@ -92,23 +118,18 @@ bool gpt_vocab_init(const std::string & fname, gpt_vocab & vocab);
 //   - consider only the top K tokens
 //   - from them, consider only the top tokens with cumulative probability > P
 //
-// TODO: not sure if this implementation is correct
-// TODO: temperature is not implemented
-//
-gpt_vocab::id gpt_sample_top_k_top_p(
+gpt_vocab::id llama_sample_top_p_top_k(
         const gpt_vocab & vocab,
         const float * logits,
-        int    top_k,
+        std::vector<gpt_vocab::id> & last_n_tokens,
+        double repeat_penalty,
+        int top_k,
         double top_p,
         double temp,
         std::mt19937 & rng);
 
-gpt_vocab::id llama_sample_top_p(
-        const gpt_vocab & vocab,
-        const float * logits,
-        double top_p,
-        double temp,
-        std::mt19937 & rng);
+// filer to top K tokens from list of logits
+void sample_top_k(std::vector<std::pair<double, gpt_vocab::id>> & logits_id, int top_k);
 
 //
 // Quantization

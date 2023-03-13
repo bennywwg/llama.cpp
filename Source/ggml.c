@@ -407,8 +407,13 @@ void quantize_row_q4_0(const float * restrict x, void * restrict y, int k) {
     const int nb = k / QK;
     const size_t bs = sizeof(float) + QK/2;
 
+<<<<<<< HEAD:Source/ggml.c
     uint8_t * restrict pd = (uint8_t *) ((const uint8_t*)y + 0*bs);
     uint8_t * restrict pb = (uint8_t *) ((const uint8_t*)y + 0*bs + sizeof(float));
+=======
+    uint8_t * restrict pd = ((uint8_t *)y + 0*bs);
+    uint8_t * restrict pb = ((uint8_t *)y + 0*bs + sizeof(float));
+>>>>>>> a169bb889cfe7b77a798f04fbc573e67ccb4316a:ggml.c
 
     uint8_t pp[QK/2];
 
@@ -654,8 +659,13 @@ void dequantize_row_q4_0(const void * restrict x, float * restrict y, int k) {
     const int nb = k / QK;
     const size_t bs = sizeof(float) + QK/2;
 
+<<<<<<< HEAD:Source/ggml.c
     const uint8_t * restrict pd = (const uint8_t *) ((const uint8_t*)x + 0*bs);
     const uint8_t * restrict pb = (const uint8_t *) ((const uint8_t*)x + 0*bs + sizeof(float));
+=======
+    const uint8_t * restrict pd = ((const uint8_t *)x + 0*bs);
+    const uint8_t * restrict pb = ((const uint8_t *)x + 0*bs + sizeof(float));
+>>>>>>> a169bb889cfe7b77a798f04fbc573e67ccb4316a:ggml.c
 
     // scalar
     for (int i = 0; i < nb; i++) {
@@ -1301,11 +1311,19 @@ inline static void ggml_vec_dot_q4_0(const int n, float * restrict s, const void
 
     const size_t bs = sizeof(float) + QK/2;
 
+<<<<<<< HEAD:Source/ggml.c
     const uint8_t * restrict pd0 = (const uint8_t *) ((const uint8_t*)x + 0*bs);
     const uint8_t * restrict pd1 = (const uint8_t *) ((const uint8_t*)y + 0*bs);
 
     const uint8_t * restrict pb0 = (const uint8_t *) ((const uint8_t*)x + 0*bs + sizeof(float));
     const uint8_t * restrict pb1 = (const uint8_t *) ((const uint8_t*)y + 0*bs + sizeof(float));
+=======
+    const uint8_t * restrict pd0 = ((const uint8_t *)x + 0*bs);
+    const uint8_t * restrict pd1 = ((const uint8_t *)y + 0*bs);
+
+    const uint8_t * restrict pb0 = ((const uint8_t *)x + 0*bs + sizeof(float));
+    const uint8_t * restrict pb1 = ((const uint8_t *)y + 0*bs + sizeof(float));
+>>>>>>> a169bb889cfe7b77a798f04fbc573e67ccb4316a:ggml.c
 
     float sumf = 0.0;
 
@@ -1731,8 +1749,13 @@ inline static void ggml_vec_mad_q4_0(const int n, float * restrict y, void * res
     const int nb = n / QK;
     const size_t bs = sizeof(float) + QK/2;
 
+<<<<<<< HEAD:Source/ggml.c
     const uint8_t * restrict pd = (const uint8_t *) ((const uint8_t*)x + 0*bs);
     const uint8_t * restrict pb = (const uint8_t *) ((const uint8_t*)x + 0*bs + sizeof(float));
+=======
+    const uint8_t * restrict pd = ((const uint8_t *)x + 0*bs);
+    const uint8_t * restrict pb = ((const uint8_t *)x + 0*bs + sizeof(float));
+>>>>>>> a169bb889cfe7b77a798f04fbc573e67ccb4316a:ggml.c
 
 #if __ARM_NEON
 #if QK == 32
